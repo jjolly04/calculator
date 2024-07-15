@@ -5,7 +5,7 @@ let multiply = (x, y) => x * y;
 let divide = (x, y) => x / y;
 
 let firstNum = 10234;
-let operator = '*';
+let operator = "*";
 let secondNum = -42114;
 
 function operate(operator, num1, num2) {
@@ -28,3 +28,27 @@ function operate(operator, num1, num2) {
 }
 
 console.log(operate(operator, firstNum, secondNum));
+
+//logic to update the display when a button is pressed
+let displayText = "";
+
+const display = document.querySelector(".display");
+
+const buttons = document.querySelectorAll(".on-screen"); //select only the buttons whose actual text should appear on screen (no = or clear)
+
+buttons.forEach((button) => {
+  button.addEventListener("click", () => {
+    displayText += button.textContent + " ";
+    display.textContent = displayText;
+  });
+});
+
+const clearButton = document.querySelector(".clear");
+const equalsButton = document.querySelector("equals");
+
+clearButton.addEventListener("click", () => {
+  displayText = "";
+  display.textContent = "";
+});
+
+
