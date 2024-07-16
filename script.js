@@ -65,7 +65,6 @@ buttons.forEach((button) => {
   });
 });
 
-
 const clearButton = document.querySelector(".clear");
 
 clearButton.addEventListener("click", () => {
@@ -84,6 +83,13 @@ let operator = "";
 let secondNum = "";
 
 equalsButton.addEventListener("click", () => {
+  console.log(displayText + "6");
+  console.log(display.textContent);
+
+  if (operators.includes(displayText.at(-2))) {
+    display.textContent = "Make sure to input all operands";
+    return;
+  }
   let splitDisplayText = displayText.split(" ");
 
   if (operators.includes(splitDisplayText.at(-1))) {
@@ -118,12 +124,22 @@ equalsButton.addEventListener("click", () => {
     secondNum += splitDisplayText[operatorIndex];
   }
 
-  let result = operate(operator, +firstNum, +secondNum);
+  if (operator === "/" && secondNum === "0") {
+    display.textContent =
+      "That's an error you clown. Clear and try again. Or else.";
+  } else {
+    let result = operate(operator, +firstNum, +secondNum);
 
-  displayText = result;
-  display.textContent = result;
+    //round to the nearest thousandth  if result is float
+    if (!Number.isInteger(parseFloat(result))) {
+      result = Math.round((parseFloat(result) + Number.EPSILON) * 1000) / 1000;
+    }
 
-  //reset for future calculations
-  firstNum = "";
-  secondNum = "";
+    displayText = result;
+    display.textContent = result;
+
+    //reset for future calculations
+    firstNum = "";
+    secondNum = "";
+  }
 });
