@@ -83,19 +83,11 @@ let operator = "";
 let secondNum = "";
 
 equalsButton.addEventListener("click", () => {
-  console.log(displayText + "6");
-  console.log(display.textContent);
-
-  if (operators.includes(displayText.at(-2))) {
-    display.textContent = "Make sure to input all operands";
-    return;
-  }
   let splitDisplayText = displayText.split(" ");
 
   if (operators.includes(splitDisplayText.at(-1))) {
     //splice current calculator text into array to input into operate
     splitDisplayText.splice(-2, 2); //chop off end to just get operands and operator
-    console.log(splitDisplayText);
   }
 
   let operatorIndex = 0;
@@ -130,9 +122,22 @@ equalsButton.addEventListener("click", () => {
   } else {
     let result = operate(operator, +firstNum, +secondNum);
 
+    if (
+      result == "Invalid input in operate function" ||
+      operators.includes(secondNum) ||
+      operators.includes(firstNum)
+    ) {
+      display.textContent = "Don't forget to input all numbers and operators!";
+      displayText = "";
+      firstNum = "";
+      secondNum = "";
+      operator = "";
+      return;
+    }
+
     //round to the nearest thousandth  if result is float
     if (!Number.isInteger(parseFloat(result))) {
-      result = Math.round((parseFloat(result) + Number.EPSILON) * 1000) / 1000;
+      result = Math.round((parseFloat(result) + Number.EPSILON) * 10000) / 10000;
     }
 
     displayText = result;
